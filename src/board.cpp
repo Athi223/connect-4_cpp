@@ -23,7 +23,6 @@ void Board :: display()
 	#ifdef __unix__
 		system("clear");
 	#elif defined(_WIN32) || defined(WIN32)
-		SetConsoleOutputCP(CP_UTF8);
 		system("cls");
 	#endif
 	for(col = 0; col < 7; ++col)

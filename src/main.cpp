@@ -2,10 +2,7 @@
 #include <iostream>
 
 int main()
-{	
-	#if _WIN32
-	SetConsoleOutputCP(CP_UTF8);
-	#endif
+{
 	int player, col, row = 0;
 	char choice = 'y';
 	do
