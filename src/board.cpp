@@ -18,9 +18,9 @@ Board :: Board()
 void Board :: display()
 {
 	int row, col;
-	#ifdef __unix__         
+	#ifdef __unix__
 		system("clear");
-	#elif defined(_WIN32) || defined(WIN32) 
+	#elif defined(_WIN32) || defined(WIN32)
 		system("cls");
 	#endif
 	for(row = 0; row < 6; ++row)
@@ -130,6 +130,7 @@ int Board :: checkEnd(int i, int j)
 			count = 0;
 		}
 	}
+	// If move was valid, change player (-1 & -2 represent invalid moves according to dropDisk & makeMove)
 	if(row >= 0)
 	{
 		this->player = ~this->player;
