@@ -9,10 +9,11 @@ Board :: Board()
 	{
 		for (col = 0; col < 7; ++col)
 		{
-			this->board[row][col] = 0;
+			board[row][col] = 0;
 		}
 	}
-	this->player = 1;
+	player = 1;
+	available = 42;
 }
 
 void Board :: display()
@@ -23,6 +24,11 @@ void Board :: display()
 	#elif defined(_WIN32) || defined(WIN32)
 		system("cls");
 	#endif
+	for(col = 0; col < 7; ++col)
+	{
+		std :: cout << "\t" << col << "\t" << (col == 6 ? "" : "|");
+	}
+	std :: cout << "\n" << std::string(112, '-') << "\n";
 	for(row = 0; row < 6; ++row)
 	{
 		for(col = 0; col < 7; ++col)
@@ -36,7 +42,6 @@ void Board :: display()
 			case -2:
 				std :: cout << "\tO\t";
 				break;
-			
 			default:
 				std :: cout << "\t\t";
 			}
@@ -56,33 +61,30 @@ int Board :: makeMove(int col)
 {
 	if(col >= 0 and col <= 6)
 	{
-		return dropDisk(col);
+		int row;
+		for(row = 5; row >= 0; --row)
+		{
+			if(board[row][col] == 0)
+			{
+				board[row][col] = player;
+				--available;
+				return row;
+			}
+		}
+		return -1;
 	}
 	return -2;
-}
-
-int Board :: dropDisk(int col)
-{
-	int row;
-	for(row = 5; row >= 0; --row)
-	{
-		if(board[row][col] == 0)
-		{
-			board[row][col] = player;
-			return row;
-		}
-	}
-	return -1;
 }
 
 int Board :: checkEnd(int i, int j)
 {
 	int row, col, count;
-	// Horizontal
+	if(available == 0)	return 2;
+	// Vertical
 	count = 0;
-	for(row = 0; row < 7; ++row)
+	for(row = 0; row < 6; ++row)
 	{
-		if(this->board[row][j] == player)
+		if(board[row][j] == player)
 		{
 			if(++count > 3) return 1;
 		}
@@ -91,11 +93,11 @@ int Board :: checkEnd(int i, int j)
 			count = 0;
 		}
 	}
-	// Verical
+	// Horizontal
 	count = 0;
 	for(col = 0; col < 7; ++col)
 	{
-		if(this->board[i][col] == player)
+		if(board[i][col] == player)
 		{
 			if(++count > 3) return 1;
 		}
@@ -108,7 +110,7 @@ int Board :: checkEnd(int i, int j)
 	count = 0;
 	for(row = (i > j ? i-j : 0), col = (j > i ? j-i : 0); row < 6 and col < 7; ++row, ++col)
 	{
-		if(this->board[row][col] == player)
+		if(board[row][col] == player)
 		{
 			if(++count > 3) return 1;
 		}
@@ -121,7 +123,7 @@ int Board :: checkEnd(int i, int j)
 	count = 0;
 	for(row = (i+j < 6 ? 0 : i+j-6), col = (i+j < 6 ? i+j : 6); row < 6 and col >= 0; ++row, --col)
 	{
-		if(this->board[row][col] == player)
+		if(board[row][col] == player)
 		{
 			if(++count > 3) return 1;
 		}
@@ -131,9 +133,9 @@ int Board :: checkEnd(int i, int j)
 		}
 	}
 	// If move was valid, change player (-1 & -2 represent invalid moves according to dropDisk & makeMove)
-	if(row >= 0)
+	if(i >= 0)
 	{
-		this->player = ~this->player;
+		player = ~player;
 	}
 	return 0;
 }
