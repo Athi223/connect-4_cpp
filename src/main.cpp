@@ -1,13 +1,11 @@
-#include <iostream>
 #include <board.hpp>
-
-inline std :: string printPlayer(int player)
-{
-	return std :: string("Player ") + (player == 1 ? "X" : "O");
-}
+#include <iostream>
 
 int main()
 {	
+	#if _WIN32
+	SetConsoleOutputCP(CP_UTF8);
+	#endif
 	int player, col, row = 0;
 	char choice = 'y';
 	do
@@ -25,7 +23,8 @@ int main()
 			{
 				std :: cout << "Enter Valid Column(0-6) !" << std :: endl;
 			}
-			std :: cout << printPlayer(player) << ":\n" << "Please Enter a Column (0-6) to Drop the Disk: ";
+			std :: cout << "Player " << (player == 1 ? "\xF0\x9F\x94\xB4" : "\xF0\x9F\x94\xB5") << ":\n" \
+			<< "Please Enter a Column (0-6) to Drop the Disk: ";
 			std :: cin >> col;
 			row = board->makeMove(col);
 		}
@@ -34,7 +33,7 @@ int main()
 		if(board->checkEnd(row, col) == 1)
 		{
 			board->display();
-			std :: cout << printPlayer(player) << " Won!\n";
+			std :: cout << "Player " << (player == 1 ? "\xF0\x9F\x94\xB4" : "\xF0\x9F\x94\xB5") << ": Won!\n";
 		}
 		else
 		{

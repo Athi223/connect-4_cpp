@@ -1,5 +1,7 @@
 #pragma once
-
+#if _WIN32
+#include <windows.h>
+#endif
 class Board
 {
 	public:

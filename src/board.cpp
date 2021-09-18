@@ -1,5 +1,6 @@
 #include <board.hpp>
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 
 Board :: Board()
@@ -22,13 +23,14 @@ void Board :: display()
 	#ifdef __unix__
 		system("clear");
 	#elif defined(_WIN32) || defined(WIN32)
+		SetConsoleOutputCP(CP_UTF8);
 		system("cls");
 	#endif
 	for(col = 0; col < 7; ++col)
 	{
-		std :: cout << "\t" << col << "\t" << (col == 6 ? "" : "|");
+		std :: cout << std :: setw(4) << col << std :: setw(4) << (col == 6 ? "" : "|");
 	}
-	std :: cout << "\n" << std::string(112, '-') << "\n";
+	std :: cout << "\n" << std::string(56, '-') << "\n";
 	for(row = 0; row < 6; ++row)
 	{
 		for(col = 0; col < 7; ++col)
@@ -37,17 +39,17 @@ void Board :: display()
 			switch (board[row][col])
 			{
 			case 1:
-				std :: cout << "\tX\t";
+				std :: cout << std :: setw(3) << " " << "\xF0\x9F\x94\xB4" << std :: setw(3);
 				break;
 			case -2:
-				std :: cout << "\tO\t";
+				std :: cout << std :: setw(3) << " " << "\xF0\x9F\x94\xB5" << std :: setw(3);
 				break;
 			default:
-				std :: cout << "\t\t";
+				std :: cout << std :: setw(8);
 			}
 		}
 		std :: cout << "\n";
-		std :: cout << std::string(112, '-');
+		std :: cout << std::string(56, '-');
 		std :: cout << "\n";
 	}
 }
